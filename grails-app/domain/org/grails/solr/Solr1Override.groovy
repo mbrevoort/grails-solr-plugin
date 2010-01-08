@@ -24,18 +24,18 @@
 package org.grails.solr
 class Solr1Override {
     static enableSolrSearch = true
-	
-	String astring
-	int aint
-	long along
-	Date adate
-	float afloat
-	
-	def indexSolrAstring(doc) {
-		doc.addField(this.solrFieldName("astring"), astring?.toUpperCase())
-	}
-	
-	def fromSolrAstring(val) {
-		return val?.toLowerCase()
-	}
+  
+  String astring
+  int aint
+  long along
+  Date adate
+  float afloat
+  
+  def indexSolrAstring(doc) {
+    doc.addField(this.solrFieldName("astring"), astring?.toUpperCase())
+  }
+  
+  def fromSolrAstring(val) {
+    return val?.toLowerCase()
+  }
 }

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="0" failures="1" hostname="mb.local" id="0" name="DomainMethodTests" package="" tests="13" time="3.092" timestamp="2009-12-30T18:56:01">
+      <properties />
+
+      <testcase classname="DomainMethodTests" name="testBasicIndex" time="1.29">
+          <failure message="expected:&lt;1262199361088&gt; but was:&lt;1262199361880&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;1262199361088&gt; but was:&lt;1262199361880&gt;
+	at DomainMethodTests$_testBasicIndex_closure1.doCall(DomainMethodTests.groovy:32)
+	at DomainMethodTests.testBasicIndex(DomainMethodTests.groovy:27)
+	at _GrailsTest_groovy$_run_closure4.doCall(_GrailsTest_groovy:202)
+	at _GrailsTest_groovy$_run_closure2.doCall(_GrailsTest_groovy:146)
+	at _GrailsTest_groovy$_run_closure1_closure19.doCall(_GrailsTest_groovy:112)
+	at _GrailsTest_groovy$_run_closure1.doCall(_GrailsTest_groovy:95)
+	at TestApp$_run_closure1.doCall(TestApp.groovy:66)
+	at gant.Gant$_dispatch_closure4.doCall(Gant.groovy:324)
+	at gant.Gant$_dispatch_closure6.doCall(Gant.groovy:334)
+	at gant.Gant$_dispatch_closure6.doCall(Gant.groovy)
+	at gant.Gant.withBuildListeners(Gant.groovy:344)
+	at gant.Gant.this$2$withBuildListeners(Gant.groovy)
+	at gant.Gant$this$2$withBuildListeners.callCurrent(Unknown Source)
+	at gant.Gant.dispatch(Gant.groovy:334)
+	at gant.Gant.this$2$dispatch(Gant.groovy)
+	at gant.Gant.invokeMethod(Gant.groovy)
+	at gant.Gant.processTargets(Gant.groovy:495)
+	at gant.Gant.processTargets(Gant.groovy:480)
+</failure>
+
+      </testcase>
+
+      <testcase classname="DomainMethodTests" name="testSolrFieldName" time="0.089" />
+
+      <testcase classname="DomainMethodTests" name="testHasManyOverride" time="0.331" />
+
+      <testcase classname="DomainMethodTests" name="testDelete" time="0.146" />
+
+      <testcase classname="DomainMethodTests" name="testDeleteByEvent" time="0.163" />
+
+      <testcase classname="DomainMethodTests" name="testBasicSearch" time="0.113" />
+
+      <testcase classname="DomainMethodTests" name="testBasicOverride" time="0.103" />
+
+      <testcase classname="DomainMethodTests" name="testSearchWithHasManyOverride" time="0.357" />
+
+      <testcase classname="DomainMethodTests" name="testStrippedSolrFieldName" time="0.025" />
+
+      <testcase classname="DomainMethodTests" name="testListingDomain" time="0.156" />
+
+      <testcase classname="DomainMethodTests" name="testSolrDisabled" time="0.017" />
+
+      <testcase classname="DomainMethodTests" name="testComposition" time="0.093" />
+
+      <testcase classname="DomainMethodTests" name="testAnnotation" time="0.13" />
+
+      <system-out><![CDATA[--Output from testBasicIndex--
+In onPostInsert
+--Output from testSolrFieldName--
+In onPostInsert
+--Output from testHasManyOverride--
+In onPostInsert
+In onPostInsert
+In onPostInsert
+In onPostInsert
+--Output from testDelete--
+In onPostInsert
+--Output from testDeleteByEvent--
+In onPostInsert
+Artefact > Solr1 searchById
+Artefact > Solr1 searchById
+--Output from testBasicSearch--
+In onPostInsert
+Artefact > Solr1 searchByAstring
+--Output from testBasicOverride--
+In onPostInsert
+Artefact > Solr1Override searchByAstring
+--Output from testSearchWithHasManyOverride--
+In onPostInsert
+In onPostInsert
+In onPostInsert
+In onPostInsert
+Artefact > Solr2 searchById
+oh no! blew up on arr_categories
+oh no! blew up on arr_solrsWithOverride
+--Output from testStrippedSolrFieldName--
+--Output from testListingDomain--
+In onPostInsert
+In onPostInsert
+Artefact > Listing searchByTitle
+Artefact > Listing searchByTitle
+--Output from testSolrDisabled--
+In onPostInsert
+--Output from testComposition--
+In onPostInsert
+In onPostInsert
+In onPostInsert
+Artefact > Solr2 searchById
+oh no! blew up on arr_categories
+oh no! blew up on composition.adate_tdt
+oh no! blew up on composition.afloat_f
+oh no! blew up on composition.aint_i
+oh no! blew up on composition.along_l
+oh no! blew up on composition.astring_t
+oh no! blew up on composition.composition.adate_tdt
+oh no! blew up on composition.composition.afloat_f
+oh no! blew up on composition.composition.aint_i
+oh no! blew up on composition.composition.along_l
+oh no! blew up on composition.composition.astring_t
+oh no! blew up on composition.composition.domainClass
+oh no! blew up on composition.domainClass
+--Output from testAnnotation--
+In onPostInsert
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testBasicIndex--
+--Output from testSolrFieldName--
+--Output from testHasManyOverride--
+--Output from testDelete--
+--Output from testDeleteByEvent--
+--Output from testBasicSearch--
+--Output from testBasicOverride--
+--Output from testSearchWithHasManyOverride--
+--Output from testStrippedSolrFieldName--
+--Output from testListingDomain--
+--Output from testSolrDisabled--
+--Output from testComposition--
+--Output from testAnnotation--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="mb.local" id="1" name="SearchTests" package="" tests="2" time="0.424" timestamp="2009-12-30T18:56:04">
+      <properties />
+
+      <testcase classname="SearchTests" name="testBasicQuery" time="0.065" />
+
+      <testcase classname="SearchTests" name="testQuerySpatial" time="0.352" />
+
+      <system-out><![CDATA[--Output from testBasicQuery--
+In onPostInsert
+--Output from testQuerySpatial--
+In onPostInsert
+In onPostInsert
+q=%28id%3Aorg.grails.solr.Listing-3+OR+id%3Aorg.grails.solr.Listing-4%29+AND+_val_%3A%22sum%28hsin%280.6935790722757577%2C-1.8323287385596856%2Clatitude_rad_d%2Clongitude_rad_d%2C3963.205%29%29%22&fq=%7B%21frange+l%3D0+u%3D100%7Dhsin%280.6935790722757577%2C-1.8323287385596856%2Clatitude_rad_d%2Clongitude_rad_d%2C3963.205%29&start=0&rows=10&sort=score+asc
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testBasicQuery--
+--Output from testQuerySpatial--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="mb.local" id="2" name="SolrServiceTests" package="" tests="3" time="0.337" timestamp="2009-12-30T18:55:51">
+      <properties />
+
+      <testcase classname="SolrServiceTests" name="testSolrDomainId" time="0.307" />
+
+      <testcase classname="SolrServiceTests" name="testReinstantiateClass" time="0.0040" />
+
+      <testcase classname="SolrServiceTests" name="testSpatialQueryBuilder" time="0.026" />
+
+      <system-out><![CDATA[--Output from testSolrDomainId--
+--Output from testReinstantiateClass--
+--Output from testSpatialQueryBuilder--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSolrDomainId--
+--Output from testReinstantiateClass--
+--Output from testSpatialQueryBuilder--
+]]></system-err>
+
+  </testsuite>
+</testsuites>

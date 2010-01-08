@@ -89,14 +89,14 @@ class Listing {
 
   }
 
-	def indexSolrLatitude(doc) {
-		doc.addField(this.solrFieldName("latitude"), latitude )
-		doc.addField("latitude_rad_d", Math.toRadians( latitude ))
-	}
-	def indexSolrLongitude(doc) {
-		doc.addField(this.solrFieldName("longitude"), longitude )
-		doc.addField("longitude_rad_d", Math.toRadians( longitude ))
-	}
+  def indexSolrLatitude(doc) {
+    doc.addField(this.solrFieldName("latitude"), latitude )
+    doc.addField("latitude_rad_d", Math.toRadians( latitude ))
+  }
+  def indexSolrLongitude(doc) {
+    doc.addField(this.solrFieldName("longitude"), longitude )
+    doc.addField("longitude_rad_d", Math.toRadians( longitude ))
+  }
 
   static constraints = {
   title(blank: false, maxSize:50)
@@ -118,5 +118,5 @@ class Listing {
   sicDescription(nullable:true)
   leadershipContact(nullable:true)
   email(nullable:true, email:true)
-	}
+  }
 }

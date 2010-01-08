@@ -38,55 +38,55 @@ import org.codehaus.groovy.grails.commons.GrailsClassUtils
 import org.apache.log4j.Logger;
 
 class SolrIndexListener implements PostInsertEventListener, PostUpdateEventListener, PostDeleteEventListener, Initializable {
-	
-	private static final Logger log = Logger.getLogger(SolrIndexListener)
-	
-	public void onPostInsert(final PostInsertEvent event) {
-		try {
-			def entity = event.getEntity()
-			if(ifEnabled(entity)) {
-				entity.indexSolr()
-				log.trace "Auto indexed ${entity} on insert"
-			}
-		} 
-		catch (HibernateException e) {
-	    log.error("Solr Index unable to process INSERT event", e)
+  
+  private static final Logger log = Logger.getLogger(SolrIndexListener)
+  
+  public void onPostInsert(final PostInsertEvent event) {
+    try {
+      def entity = event.getEntity()
+      if(ifEnabled(entity)) {
+        entity.indexSolr()
+        log.trace "Auto indexed ${entity} on insert"
+      }
+    } 
+    catch (HibernateException e) {
+      log.error("Solr Index unable to process INSERT event", e)
     }
-		return
-	}
-	
-	public void onPostUpdate(final PostUpdateEvent event) {
-		try {
-			def entity = event.getEntity()
-			if(ifEnabled(entity)) {
-				entity.indexSolr()
-				log.trace "Auto indexed ${entity} on update"
-			}
-		} 
-		catch (HibernateException e) {
-	    log.error("Solr Index unable to process UPDATE event", e)
+    return
+  }
+  
+  public void onPostUpdate(final PostUpdateEvent event) {
+    try {
+      def entity = event.getEntity()
+      if(ifEnabled(entity)) {
+        entity.indexSolr()
+        log.trace "Auto indexed ${entity} on update"
+      }
+    } 
+    catch (HibernateException e) {
+      log.error("Solr Index unable to process UPDATE event", e)
     }
-		return		
-	}
-	
-	public void onPostDelete(final PostDeleteEvent event) {
-		try {
-			def entity = event.getEntity()
-			if(ifEnabled(entity)) {
-				entity.deleteSolr()
-			}
-		} catch (HibernateException e) {
-	    log.error("Solr Index unable to process DELETE event", e)
+    return    
+  }
+  
+  public void onPostDelete(final PostDeleteEvent event) {
+    try {
+      def entity = event.getEntity()
+      if(ifEnabled(entity)) {
+        entity.deleteSolr()
+      }
+    } catch (HibernateException e) {
+      log.error("Solr Index unable to process DELETE event", e)
     }
-		return		
-	}
-	
-	private boolean ifEnabled(entity) {
-		GrailsClassUtils.getStaticPropertyValue(entity.class, "enableSolrSearch") &&
-				GrailsClassUtils.getStaticPropertyValue(entity.class, "solrAutoIndex")
-	}
-	
+    return    
+  }
+  
+  private boolean ifEnabled(entity) {
+    GrailsClassUtils.getStaticPropertyValue(entity.class, "enableSolrSearch") &&
+        GrailsClassUtils.getStaticPropertyValue(entity.class, "solrAutoIndex")
+  }
+  
     public void initialize(final Configuration config) {
         return
-    }	
+    } 
 }

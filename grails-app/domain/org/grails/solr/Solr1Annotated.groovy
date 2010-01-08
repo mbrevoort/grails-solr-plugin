@@ -24,16 +24,16 @@
 package org.grails.solr
 class Solr1Annotated {
   static enableSolrSearch = true
-	static solrAutoIndex = true
-	
-	@Solr(field="astringanothername_s")
-	String astring
-	
-	@Solr(asText=true)
-	String bstring
-	
-	int aint
-	long along
-	Date adate
-	float afloat
+  static solrAutoIndex = true
+  
+  @Solr(field="astringanothername_s")
+  String astring
+  
+  @Solr(asText=true)
+  String bstring
+  
+  int aint
+  long along
+  Date adate
+  float afloat
 }

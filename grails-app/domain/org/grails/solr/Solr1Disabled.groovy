@@ -24,10 +24,10 @@
 package org.grails.solr
 class Solr1Disabled {
     static enableSolrSearch = false
-	
-	String astring
-	int aint
-	long along
-	Date adate
-	float afloat
+  
+  String astring
+  int aint
+  long along
+  Date adate
+  float afloat
 }

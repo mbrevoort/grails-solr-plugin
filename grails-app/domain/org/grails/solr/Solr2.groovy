@@ -23,40 +23,40 @@
 
 package org.grails.solr
 class Solr2 {
-	static enableSolrSearch = true
+  static enableSolrSearch = true
 
-	String astring
-	int aint
-	long along
-	Date adate
-	float afloat
-	Solr2 composition
-	TESTENUM testenum
-	
-	String categories
+  String astring
+  int aint
+  long along
+  Date adate
+  float afloat
+  Solr2 composition
+  TESTENUM testenum
+  
+  String categories
 
-	static hasMany = [ solrs: Solr1, solrsWithOverride: Solr1 ]
-	static constraints = {
-		composition(nullable: true)
-		categories(nullable: true)
-		testenum(nullable:true)
-	}
+  static hasMany = [ solrs: Solr1, solrsWithOverride: Solr1 ]
+  static constraints = {
+    composition(nullable: true)
+    categories(nullable: true)
+    testenum(nullable:true)
+  }
 
-	
-	def indexSolrCategories(doc) {
-		if(categories) {
-			categories.split(",").each {
-//				doc.addField(this.solrFieldName("categories"), it)
-				doc.addField("arr_categories", it)
-			}
-		}	
-	}
-	
-	
-	def indexSolrSolrsWithOverride(doc) {
-		solrsWithOverride.each {
-//			doc.addField(this.solrFieldName("solrsWithOverride"), it.solrId())
-			doc.addField("arr_solrsWithOverride", it.solrId())
-		}
-	}
+  
+  def indexSolrCategories(doc) {
+    if(categories) {
+      categories.split(",").each {
+//        doc.addField(this.solrFieldName("categories"), it)
+        doc.addField("arr_categories", it)
+      }
+    } 
+  }
+  
+  
+  def indexSolrSolrsWithOverride(doc) {
+    solrsWithOverride.each {
+//      doc.addField(this.solrFieldName("solrsWithOverride"), it.solrId())
+      doc.addField("arr_solrsWithOverride", it.solrId())
+    }
+  }
 }

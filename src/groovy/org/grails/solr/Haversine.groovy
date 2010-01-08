@@ -28,16 +28,16 @@ package org.grails.solr
  */
 class Haversine {
     static final double Rk = 6371
-	static final double Rm = 3963.205
-	
-	static double computeMi(p1_lat, p1_lng, p2_lat, p2_lng) {
-		compute(p1_lat, p1_lng, p2_lat, p2_lng, Rm)
-	}
+  static final double Rm = 3963.205
+  
+  static double computeMi(p1_lat, p1_lng, p2_lat, p2_lng) {
+    compute(p1_lat, p1_lng, p2_lat, p2_lng, Rm)
+  }
 
-	static double computeKm(p1_lat, p1_lng, p2_lat, p2_lng) {
-		compute(p1_lat, p1_lng, p2_lat, p2_lng, Rk)
-	}
-	
+  static double computeKm(p1_lat, p1_lng, p2_lat, p2_lng) {
+    compute(p1_lat, p1_lng, p2_lat, p2_lng, Rk)
+  }
+  
     static double compute(p1_lat, p1_lng, p2_lat, p2_lng, rad) {
         def dLat = Math.toRadians(p2_lat - p1_lat);
         def dLon = Math.toRadians(p2_lng - p1_lng);
