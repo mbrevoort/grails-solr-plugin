@@ -1,0 +1,9 @@
+DefaultPackage
+grails-app.conf
+grails-app.domain.org.grails.solr
+grails-app.services.org.grails.solr
+scripts
+src.groovy.org.grails.solr
+src.java.org.grails.solr
+test.integration
+test.unit
