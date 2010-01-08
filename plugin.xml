@@ -3,7 +3,7 @@
   <authorEmail>brevoortm@avalonconsult.com</authorEmail>
   <title>Grails Solr Plugin</title>
   <description>\
-Provides search capabilities for Grails domain model and more. Based on Solr 
+Provides search capabilities for Grails domain model and more using the excellent Solr 
 open source search server through the SolrJ library.
 </description>
   <documentation>http://grails.org/Solr+Plugin</documentation>
