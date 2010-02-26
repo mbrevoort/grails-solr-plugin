@@ -235,14 +235,14 @@ class DomainMethodTests extends GrailsUnitTestCase {
 		def searchResult = Listing.searchSolr("${Listing.solrFieldName('title')}:Church of Castle Rock")
 		assertNotNull(searchResult)
 		assertNotNull(searchResult.resultList)
-		searchResult.domains.each {
+		searchResult.resultList.each {
 			assertEquals(it.title, "Church of Castle Rock")
 		}
 
 		searchResult = Listing.searchSolr("${Listing.solrFieldName('title')}:Church of Parker")
 		assertNotNull(searchResult)
 		assertNotNull(searchResult.resultList)
-		searchResult.domains.each {
+		searchResult.resultList.each {
 			assertEquals(it.title, "Church of Parker")
 		}		
 		

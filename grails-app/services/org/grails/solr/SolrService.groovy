@@ -72,6 +72,7 @@ class SolrService {
   */
   def search(SolrQuery solrQuery) {
     QueryResponse rsp = getServer().query( solrQuery );
+    
 
     def results = []
     rsp.getResults().each { doc ->
@@ -90,7 +91,8 @@ class SolrService {
       results << map
     }
      
-    [resultList: results, queryResponse: rsp]   
+    return new SearchResults(resultList: results, queryResponse: rsp); 
+      
   }
     
   /**

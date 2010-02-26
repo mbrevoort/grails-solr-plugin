@@ -187,7 +187,7 @@ open source search server through the SolrJ library.
             def solrQuery = new SolrQuery( query )
             def objType = (delegate.class.name == 'java.lang.Class') ? delegate.name : delegate.class.name
             solrQuery.addFilterQuery("${SolrUtil.TYPE_FIELD}:${objType}")
-            println solrQuery
+            //println solrQuery
             def result = solrService.search(solrQuery)
 
             // GIVING UP ON THE OBJECT RESULTS FOR THE TIME BEING
