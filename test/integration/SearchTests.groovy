@@ -49,6 +49,28 @@ class SearchTests extends GroovyTestCase {
 		assertEquals(result.queryResponse.getResults()[0].getFieldValue( s.solrFieldName("astring")), s.astring)		
 	}
 	
+	void testFacetedQuery() {
+		new Solr1(astring: "one", aint: 9999, afloat: 1.2f, adate: new Date()).save()
+		new Solr1(astring: "one", aint: 9999, afloat: 1.2f, adate: new Date()).save()
+	  new Solr1(astring: "two", aint: 9999, afloat: 1.2f, adate: new Date()).save()	  
+	  
+	  def query = new SolrQuery("${Solr1.solrFieldName('aint')}:9999")
+	  query.facet = true
+	  query.addFacetField(Solr1.solrFieldName("astring"))
+	  def result = Solr1.searchSolr(query)
+	  
+	  def facetField = result.queryResponse.getFacetField(Solr1.solrFieldName("astring"))
+	  assertNotNull facetField
+
+	  facetField.getValues().each { 
+      if(it.getName()  == "one") {
+        assertEquals(2, it.getCount() )
+      } else if (it.getName()  == "two") {
+        assertEquals(1, it.getCount() )
+      } 
+	  }	  
+	}
+	
 	void testQuerySpatial() {
 		def listing1 = new Listing(title: "Church of Castle Rock", address1: "1 My St", city: "Castle Rock", state: "CO", postalCode: "80104", country: "US", latitude: 39.37436, longitude: -104.859929).save()
         def listing2 = new Listing(title: "Church of Parker", address1: "2 My St", city: "Parker", state: "CO", postalCode: "80104", country: "US", latitude: 39.517363, longitude: -104.785984).save()

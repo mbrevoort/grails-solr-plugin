@@ -157,9 +157,9 @@ open source search server through the SolrJ library.
               List splitName = name.split(/\./)
               splitName.remove(splitName.size()-1)
               splitName.each {
-                println "Before: ${delegateDomainOjbect}   ${it}"
+                //println "Before: ${delegateDomainOjbect}   ${it}"
                 delegateDomainOjbect = delegateDomainOjbect."${it}"
-                println "After ${delegateDomainOjbect}"
+                //println "After ${delegateDomainOjbect}"
               }
 
               prop = clazz.declaredFields.find{ field -> field.name == name}
@@ -184,7 +184,7 @@ open source search server through the SolrJ library.
           dc.metaClass.'static'.searchSolr << { query ->
             def solrService = ctx.getBean("solrService");
             def server = solrService.getServer()
-            def solrQuery = new SolrQuery( query )
+            def solrQuery = (query instanceof org.apache.solr.client.solrj.SolrQuery) ? query : new SolrQuery( query )
             def objType = (delegate.class.name == 'java.lang.Class') ? delegate.name : delegate.class.name
             solrQuery.addFilterQuery("${SolrUtil.TYPE_FIELD}:${objType}")
             //println solrQuery
