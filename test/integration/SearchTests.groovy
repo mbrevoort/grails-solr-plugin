@@ -69,7 +69,16 @@ class SearchTests extends GroovyTestCase {
         assertEquals(1, it.getCount() )
       } 
 	  }	  
+	  
+	  // test facet method
+	  assertEquals(result.facet(Solr1, "astring"), facetField)
+	  
+	  // bad place obviously for this test, will move when I have time to clean up and refactor
+	  // the tests  
+	  assertEquals(result.total, result.queryResponse.results.getNumFound())
 	}
+	
+	
 	
 	void testQuerySpatial() {
 		def listing1 = new Listing(title: "Church of Castle Rock", address1: "1 My St", city: "Castle Rock", state: "CO", postalCode: "80104", country: "US", latitude: 39.37436, longitude: -104.859929).save()
