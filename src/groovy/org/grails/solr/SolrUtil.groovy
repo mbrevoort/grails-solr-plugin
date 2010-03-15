@@ -44,6 +44,8 @@ class SolrUtil {
                   "class java.util.Date": "_tdt"] 
               
   def static final typeSuffixes = ["_i", "_s", "_l", "_t", "_b", "_f", "_d", "_dt", "_ti", "_tl", "_tf", "_td", "_tdt", "_pi"]            
+  
+  
   static stripFieldName(name){
     //def strippedName = name
     typeSuffixes.each {

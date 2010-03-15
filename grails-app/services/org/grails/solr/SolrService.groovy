@@ -88,6 +88,11 @@ class SolrService {
           map."${it}" = doc.getFieldValue(it)
       }
       map.id = SolrUtil.parseSolrId(doc.getFieldValue("id"))?.id
+      
+      // Add the SolrDocument to the map as well
+      // http://lucene.apache.org/solr/api/org/apache/solr/common/SolrDocument.html
+      map.solrDocument = doc
+    
       results << map
     }
      

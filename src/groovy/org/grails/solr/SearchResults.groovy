@@ -31,6 +31,10 @@ class SearchResults {
   
   def facet(domain, field) {
     def fieldName = domain?.solrFieldName(field)   
+    facet(fieldName)
+  }
+  
+  def facet(fieldName) {
     (fieldName) ? queryResponse.getFacetField(fieldName) : null
   }
   
