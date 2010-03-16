@@ -32,7 +32,9 @@ class Solr1Annotated {
   @Solr(asText=true)
   String bstring
   
+  @Solr(ignore=true)
   int aint
+  
   long along
   Date adate
   float afloat

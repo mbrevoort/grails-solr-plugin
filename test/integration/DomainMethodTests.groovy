@@ -307,6 +307,8 @@ class DomainMethodTests extends GrailsUnitTestCase {
 			assertEquals(it.getFieldValue( "astringanothername_s" ), "annotatedSolrFieldName")
 			// should have a suffix of _t if text
 			assertEquals(it.getFieldValue( "bstring_t") , s.bstring)
+			assertNull(it.getFieldValue( s.solrFieldName("aint")))
+			assertNull(it.getFieldValue("bogus"))
 		}
 	}
 		
