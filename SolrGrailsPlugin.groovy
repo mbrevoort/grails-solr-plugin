@@ -235,23 +235,25 @@ open source search server through the SolrJ library.
 
   private indexDomain(application, delegateDomainOjbect, doc, depth = 1, prefix = "") {
     def domainDesc = application.getArtefact(DomainClassArtefactHandler.TYPE, delegateDomainOjbect.class.name)
-    domainDesc.getProperties().each { 
+    def clazz = (delegateDomainOjbect.class.name == 'java.lang.Class') ? delegateDomainOjbect : delegateDomainOjbect.class
+    
+    domainDesc.getProperties().each { prop ->
 
       //println "the type for ${it.name} is ${it.type}"
       // if the property is a closure, the type (by observation) is java.lang.Object
       // TODO: reconsider passing on all java.lang.Objects
       //println "${it.name} : ${it.type}"
-      if(!SolrUtil.IGNORED_PROPS.contains(it.name) && it.type != java.lang.Object) {
+      if(!SolrUtil.IGNORED_PROPS.contains(prop.name) && prop.type != java.lang.Object) { 
       
         // look to see if the property has a solrIndex override method
-        def overrideMethodName = (it.name?.length() > 1) ? "indexSolr${it.name[0].toUpperCase()}${it.name.substring(1)}" : ""
+        def overrideMethodName = (prop.name?.length() > 1) ? "indexSolr${prop.name[0].toUpperCase()}${prop.name.substring(1)}" : ""
         def overrideMethod = delegateDomainOjbect.metaClass.pickMethod(overrideMethodName)
         if(overrideMethod != null) {
           overrideMethod.invoke(delegateDomainOjbect, doc)
         } 
-        else if(delegateDomainOjbect."${it.name}" != null) {
-          def docKey = prefix + delegateDomainOjbect.solrFieldName(it.name)                 
-          def docValue = delegateDomainOjbect.getProperty(it.name) 
+        else if(delegateDomainOjbect."${prop.name}" != null) {
+          def docKey = prefix + delegateDomainOjbect.solrFieldName(prop.name)                 
+          def docValue = delegateDomainOjbect.getProperty(prop.name) 
           
           // Removed because of issues with stale indexing when composed index changes
           // Recursive indexing of composition fields
@@ -269,6 +271,17 @@ open source search server through the SolrJ library.
             doc.addField(docKey, SolrUtil.getSolrId(docValue))
           else
             doc.addField(docKey, docValue)
+            
+          // if the annotation asTextAlso is true, then also index this field as a text type independant of how else it's
+          // indexed. The best way to handle the need to do this would be the properly configure the schema.xml file but
+          // for those not familiar with Solr this is an easy way to make sure the field is processed as text which should 
+          // be the default search and processed with a WordDelimiterFilter   
+          
+          def clazzProp = clazz.declaredFields.find{ field -> field.name == prop.name}
+          if(clazzProp.isAnnotationPresent(Solr) && clazzProp.getAnnotation(Solr).asTextAlso()) {
+            doc.addField("${prefix}${prop.name}_t", docValue)     
+          }
+            
           //println "Indexing: ${docKey} = ${docValue}"
         }               
       } // if ignored props

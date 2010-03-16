@@ -19,7 +19,7 @@ open source search server through the SolrJ library.
     <resource>org.grails.solr.Solr2</resource>
     <resource>org.grails.solr.TESTENUM</resource>
     <resource>org.grails.solr.SolrService</resource>
-    <resource>SolrTagLib</resource>
+    <resource>org.grails.solr.SolrTagLib</resource>
   </resources>
   <dependencies>
     <plugin name='domainClass' version='1.1 &gt; *' />

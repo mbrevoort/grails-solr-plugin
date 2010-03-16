@@ -311,6 +311,10 @@ class DomainMethodTests extends GrailsUnitTestCase {
 			assertNull(it.getFieldValue("bogus"))
 			assertNotNull(it.getFieldValue( s.solrFieldName("along")))
 			assertNotNull(it.getFieldValue( s.solrFieldName("afloat")))
+			
+			assertNotNull(it.getFieldValue( "astring_t"))
+			assertEquals(it.getFieldValue( "astringanothername_s" ), it.getFieldValue( "astring_t"))
+			
 		}
 	}
 		

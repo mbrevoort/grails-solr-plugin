@@ -26,7 +26,7 @@ class Solr1Annotated {
   static enableSolrSearch = true
   static solrAutoIndex = true
   
-  @Solr(field="astringanothername_s")
+  @Solr(field="astringanothername_s", asTextAlso=true)
   String astring
   
   @Solr(asText=true)

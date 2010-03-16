@@ -32,5 +32,6 @@ import java.lang.annotation.*;
 public @interface Solr {
     String field() default "";
     boolean asText() default false;
+    boolean asTextAlso() default false; 
     boolean ignore() default false;
 }
