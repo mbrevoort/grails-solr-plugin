@@ -1,4 +1,5 @@
 import org.grails.solr.SolrUtil
+package com.grails.solr
 
 class SolrTagLib {
     
@@ -52,7 +53,7 @@ class SolrTagLib {
       }
     }
     
-        
+                
     // Call the grails link taglib if this is an indexed domain, otherwise return a link from
     // a field specified in which should be the SolrDocuement attribute to use if not a domain
     // <solr:resultLink result="${result}" field="solrDocuemntFieldNameIfNotDomain"
@@ -79,7 +80,6 @@ class SolrTagLib {
         if(altFieldVal)
           out << "<a href=\"${altFieldVal}\">${body()}</a> "
       }
-
     }
     
 }

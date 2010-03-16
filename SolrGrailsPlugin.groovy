@@ -274,7 +274,10 @@ open source search server through the SolrJ library.
       } // if ignored props
     } // domainDesc.getProperties().each
 
+    // add a field to the index for the field ype
     doc.addField(prefix + SolrUtil.TYPE_FIELD, delegateDomainOjbect.class.name)
+    
+    // add a field for the id which will be the classname dash id
     doc.addField("${prefix}id", "${delegateDomainOjbect.class.name}-${delegateDomainOjbect.id}")
     
     if(doc.getField(SolrUtil.TITLE_FIELD) == null) {
