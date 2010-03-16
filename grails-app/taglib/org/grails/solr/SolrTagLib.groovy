@@ -1,5 +1,6 @@
+package org.grails.solr
 import org.grails.solr.SolrUtil
-package com.grails.solr
+
 
 class SolrTagLib {
     
