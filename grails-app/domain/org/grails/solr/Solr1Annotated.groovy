@@ -37,5 +37,7 @@ class Solr1Annotated {
   
   long along
   Date adate
+  
+  @Solr(ignore=false)
   float afloat
 }

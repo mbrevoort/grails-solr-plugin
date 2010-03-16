@@ -165,18 +165,19 @@ open source search server through the SolrJ library.
               prop = clazz.declaredFields.find{ field -> field.name == name}
             }
             
+            def typeMap = SolrUtil.typeMapping["${prop?.type}"] 
+            solrFieldName = (typeMap) ? "${prefix}${name}${typeMap}" : "${prefix}${name}"
+            
             // check for annotations
             if(prop?.isAnnotationPresent(Solr)) {
               def anno = prop.getAnnotation(Solr)
               if(anno.field())
                 solrFieldName = prop.getAnnotation(Solr).field()
-              else if(anno.asText()) {
+              else if(anno.asText()) 
                 solrFieldName = "${prefix}${name}_t"
-              }
-            } else {
-              def typeMap = SolrUtil.typeMapping["${prop?.type}"] 
-              solrFieldName = (typeMap) ? "${prefix}${name}${typeMap}" : "${prefix}${name}"             
-            }
+              else if(anno.ignore())
+                solrFieldName = null;                
+            } 
 
             return solrFieldName
           }
