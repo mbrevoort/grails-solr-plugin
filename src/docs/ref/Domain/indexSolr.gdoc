@@ -1,0 +1,20 @@
+
+h1. indexSolr
+
+h2. Purpose
+
+
+
+h2. Examples
+
+{code:java}
+foo.indexSolr()
+{code}
+
+h2. Description
+
+
+
+Arguments:
+
+[]

@@ -315,6 +315,10 @@ class DomainMethodTests extends GrailsUnitTestCase {
 			assertNotNull(it.getFieldValue( "astring_t"))
 			assertEquals(it.getFieldValue( "astringanothername_s" ), it.getFieldValue( "astring_t"))
 			
+			// if for some reason a null field name slips through, the field name could be null test for that
+			// it was happening on the ignored fields
+			assertNull(it.getFieldValue( "null"))
+			
 		}
 	}
 		

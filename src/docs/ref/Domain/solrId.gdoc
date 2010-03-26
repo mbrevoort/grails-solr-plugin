@@ -1,0 +1,20 @@
+
+h1. solrId
+
+h2. Purpose
+
+
+
+h2. Examples
+
+{code:java}
+foo.solrId()
+{code}
+
+h2. Description
+
+
+
+Arguments:
+
+[]

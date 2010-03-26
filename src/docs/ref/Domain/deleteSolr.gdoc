@@ -1,0 +1,20 @@
+
+h1. deleteSolr
+
+h2. Purpose
+
+
+
+h2. Examples
+
+{code:java}
+foo.deleteSolr()
+{code}
+
+h2. Description
+
+
+
+Arguments:
+
+[]

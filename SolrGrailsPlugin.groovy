@@ -252,34 +252,39 @@ open source search server through the SolrJ library.
           overrideMethod.invoke(delegateDomainOjbect, doc)
         } 
         else if(delegateDomainOjbect."${prop.name}" != null) {
-          def docKey = prefix + delegateDomainOjbect.solrFieldName(prop.name)                 
-          def docValue = delegateDomainOjbect.getProperty(prop.name) 
+          def fieldName = delegateDomainOjbect.solrFieldName(prop.name);
           
-          // Removed because of issues with stale indexing when composed index changes
-          // Recursive indexing of composition fields
-          //if(GrailsClassUtils.getStaticPropertyValue(docValue.class, "enableSolrSearch") && depth < 3) {
-          //  def innerDomainDesc = application.getArtefact(DomainClassArtefactHandler.TYPE, docValue.class.name)
-          //  indexDomain(application, docValue, doc, ++depth, "${docKey}.")
-          //} else {
-          //  doc.addField(docKey, docValue)                  
-          //}
+          // fieldName may be null if the ignore annotion is used, not the best way to handle but ok for now
+          if(fieldName) {
+            def docKey = prefix + fieldName                
+            def docValue = delegateDomainOjbect.getProperty(prop.name) 
           
-          // instead of the composition logic above, if the class is a domain class
-          // then set the value to the Solr Id
-          // TODO - reconsider this indexing logic as a whole
-          if(DomainClassArtefactHandler.isDomainClass(docValue.class))
-            doc.addField(docKey, SolrUtil.getSolrId(docValue))
-          else
-            doc.addField(docKey, docValue)
+            // Removed because of issues with stale indexing when composed index changes
+            // Recursive indexing of composition fields
+            //if(GrailsClassUtils.getStaticPropertyValue(docValue.class, "enableSolrSearch") && depth < 3) {
+            //  def innerDomainDesc = application.getArtefact(DomainClassArtefactHandler.TYPE, docValue.class.name)
+            //  indexDomain(application, docValue, doc, ++depth, "${docKey}.")
+            //} else {
+            //  doc.addField(docKey, docValue)                  
+            //}
+          
+            // instead of the composition logic above, if the class is a domain class
+            // then set the value to the Solr Id
+            // TODO - reconsider this indexing logic as a whole
+            if(DomainClassArtefactHandler.isDomainClass(docValue.class))
+              doc.addField(docKey, SolrUtil.getSolrId(docValue))
+            else
+              doc.addField(docKey, docValue)
             
-          // if the annotation asTextAlso is true, then also index this field as a text type independant of how else it's
-          // indexed. The best way to handle the need to do this would be the properly configure the schema.xml file but
-          // for those not familiar with Solr this is an easy way to make sure the field is processed as text which should 
-          // be the default search and processed with a WordDelimiterFilter   
+            // if the annotation asTextAlso is true, then also index this field as a text type independant of how else it's
+            // indexed. The best way to handle the need to do this would be the properly configure the schema.xml file but
+            // for those not familiar with Solr this is an easy way to make sure the field is processed as text which should 
+            // be the default search and processed with a WordDelimiterFilter   
           
-          def clazzProp = clazz.declaredFields.find{ field -> field.name == prop.name}
-          if(clazzProp.isAnnotationPresent(Solr) && clazzProp.getAnnotation(Solr).asTextAlso()) {
-            doc.addField("${prefix}${prop.name}_t", docValue)     
+            def clazzProp = clazz.declaredFields.find{ field -> field.name == prop.name}
+            if(clazzProp.isAnnotationPresent(Solr) && clazzProp.getAnnotation(Solr).asTextAlso()) {
+              doc.addField("${prefix}${prop.name}_t", docValue)     
+            }
           }
             
           //println "Indexing: ${docKey} = ${docValue}"
