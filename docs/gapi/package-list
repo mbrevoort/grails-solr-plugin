@@ -8,9 +8,3 @@ src.groovy.org.grails.solr
 src.java.org.grails.solr
 test.integration
 test.unit
-unzipped
-unzipped.grails-app.services.org.grails.solr
-unzipped.grails-app.taglib.org.grails.solr
-unzipped.scripts
-unzipped.src.groovy.org.grails.solr
-unzipped.src.java.org.grails.solr
