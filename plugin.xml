@@ -1,4 +1,4 @@
-<plugin name='solr' version='0.2' grailsVersion='1.1 &gt; *'>
+<plugin name='solr' version='0.3' grailsVersion='1.1 &gt; *'>
   <author>Mike Brevoort</author>
   <authorEmail>brevoortm@avalonconsult.com</authorEmail>
   <title>Grails Solr Plugin</title>
@@ -23,75 +23,6 @@ open source search server through the SolrJ library.
   </resources>
   <dependencies>
     <plugin name='domainClass' version='1.1 &gt; *' />
-    <resolvers>
-      <resolver type='grailsPlugins' name='grailsPlugins' />
-    </resolvers>
   </dependencies>
-  <behavior>
-    <method name='indexSolr' artefact='Domain' type='org.grails.solr.Listing'>
-      <description />
-    </method>
-    <method name='indexSolr' artefact='Domain' type='org.grails.solr.Listing'>
-      <description />
-      <argument type='java.lang.Object' />
-    </method>
-    <method name='deleteSolr' artefact='Domain' type='org.grails.solr.Listing'>
-      <description />
-    </method>
-    <method name='solrId' artefact='Domain' type='org.grails.solr.Listing'>
-      <description />
-    </method>
-    <method name='indexSolr' artefact='Domain' type='org.grails.solr.Solr1'>
-      <description />
-    </method>
-    <method name='indexSolr' artefact='Domain' type='org.grails.solr.Solr1'>
-      <description />
-      <argument type='java.lang.Object' />
-    </method>
-    <method name='deleteSolr' artefact='Domain' type='org.grails.solr.Solr1'>
-      <description />
-    </method>
-    <method name='solrId' artefact='Domain' type='org.grails.solr.Solr1'>
-      <description />
-    </method>
-    <method name='indexSolr' artefact='Domain' type='org.grails.solr.Solr1Annotated'>
-      <description />
-    </method>
-    <method name='indexSolr' artefact='Domain' type='org.grails.solr.Solr1Annotated'>
-      <description />
-      <argument type='java.lang.Object' />
-    </method>
-    <method name='deleteSolr' artefact='Domain' type='org.grails.solr.Solr1Annotated'>
-      <description />
-    </method>
-    <method name='solrId' artefact='Domain' type='org.grails.solr.Solr1Annotated'>
-      <description />
-    </method>
-    <method name='indexSolr' artefact='Domain' type='org.grails.solr.Solr1Override'>
-      <description />
-    </method>
-    <method name='indexSolr' artefact='Domain' type='org.grails.solr.Solr1Override'>
-      <description />
-      <argument type='java.lang.Object' />
-    </method>
-    <method name='deleteSolr' artefact='Domain' type='org.grails.solr.Solr1Override'>
-      <description />
-    </method>
-    <method name='solrId' artefact='Domain' type='org.grails.solr.Solr1Override'>
-      <description />
-    </method>
-    <method name='indexSolr' artefact='Domain' type='org.grails.solr.Solr2'>
-      <description />
-    </method>
-    <method name='indexSolr' artefact='Domain' type='org.grails.solr.Solr2'>
-      <description />
-      <argument type='java.lang.Object' />
-    </method>
-    <method name='deleteSolr' artefact='Domain' type='org.grails.solr.Solr2'>
-      <description />
-    </method>
-    <method name='solrId' artefact='Domain' type='org.grails.solr.Solr2'>
-      <description />
-    </method>
-  </behavior>
+  <behavior />
 </plugin>

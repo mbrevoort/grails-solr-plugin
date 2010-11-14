@@ -36,16 +36,22 @@ class SolrService {
 
   boolean transactional = false
   def grailsApplication
-
+  private def servers = [:]
+  
   /**
   * Return a SolrServer
   * {@link http://lucene.apache.org/solr/api/org/apache/solr/client/solrj/SolrServer.html}
   */
   def getServer() {
     def url =  (grailsApplication.config.solr?.url) ? grailsApplication.config.solr.url : "http://localhost:8983/solr"
-    def server = new CommonsHttpSolrServer( url )
-    //server.setParser(new XMLResponseParser())
-    return server
+    def server 
+    
+    // only create a new CommonsHttpSolrServer once per URL since it is threadsafe and this service is a singleton
+    // Ref: http://wiki.apache.org/solr/Solrj#CommonsHttpSolrServer
+    if( !servers[url] ){
+        servers[url] = new CommonsHttpSolrServer( url )
+    }
+    return servers[url]
   }
   
   def getStreamingUpdateServer(queueSize=20, numThreads=3) {
