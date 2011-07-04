@@ -29,6 +29,7 @@ import org.apache.solr.client.solrj.impl.XMLResponseParser
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.response.QueryResponse
+import org.apache.solr.client.solrj.SolrRequest;
 import org.grails.solr.*
 
 
@@ -77,7 +78,9 @@ class SolrService {
   * @return Map with 'resultList' - list of Maps representing results and 'queryResponse' - Solrj query result
   */
   def search(SolrQuery solrQuery) {
-    QueryResponse rsp = getServer().query( solrQuery );
+	
+	def method =  (grailsApplication.config.solr?.method == "POST") ? SolrRequest.METHOD.POST : SolrRequest.METHOD.GET
+    QueryResponse rsp = getServer().query( solrQuery, method );
     
 
     def results = []
