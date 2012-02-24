@@ -1,4 +1,4 @@
-<plugin name='solr' version='0.3' grailsVersion='1.1 &gt; *'>
+<plugin name='solr' version='0.4' grailsVersion='1.1 &gt; *'>
   <author>Mike Brevoort</author>
   <authorEmail>brevoortm@avalonconsult.com</authorEmail>
   <title>Grails Solr Plugin</title>
@@ -7,10 +7,8 @@ Provides search capabilities for Grails domain model and more using the excellen
 open source search server through the SolrJ library.
 </description>
   <documentation>http://grails.org/Solr+Plugin</documentation>
+  <type>SolrGrailsPlugin</type>
   <resources>
-    <resource>Config</resource>
-    <resource>DataSource</resource>
-    <resource>UrlMappings</resource>
     <resource>org.grails.solr.Listing</resource>
     <resource>org.grails.solr.Solr1</resource>
     <resource>org.grails.solr.Solr1Annotated</resource>
@@ -21,8 +19,21 @@ open source search server through the SolrJ library.
     <resource>org.grails.solr.SolrService</resource>
     <resource>org.grails.solr.SolrTagLib</resource>
   </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+  </repositories>
   <dependencies>
-    <plugin name='domainClass' version='1.1 &gt; *' />
+    <compile>
+      <dependency group='org.apache.solr' name='solr-solrj' version='3.5.0' />
+    </compile>
   </dependencies>
+  <plugins />
+  <runtimePluginRequirements>
+    <plugin name='domainClass' version='1.1 &gt; *' />
+  </runtimePluginRequirements>
   <behavior />
 </plugin>
