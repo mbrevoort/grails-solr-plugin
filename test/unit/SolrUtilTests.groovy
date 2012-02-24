@@ -38,8 +38,8 @@ class SolrUtilTests extends GrailsUnitTestCase {
   void testSolrId() {	
 		def s = new Solr1(astring: "mystring", aint: 2, afloat: 1.2f, adate: new Date())
 		s.id = 25
-		def solrId = SolrUtil.getSolrId(s);
-		assertEquals(solrId, "org.grails.solr.Solr1-25")
+		def solrId = SolrUtil.getSolrId(s) as String;
+		assertEquals(solrId, 'org.grails.solr.Solr1-25')
 
 		def parsed = SolrUtil.parseSolrId(solrId)
 		assertEquals("org.grails.solr.Solr1", parsed.class)
