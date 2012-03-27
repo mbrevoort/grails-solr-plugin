@@ -94,7 +94,7 @@ class DomainMethodTests extends GrailsUnitTestCase {
 		QueryResponse rsp = server.query( new SolrQuery("id:${s2.solrId()}") );
 		def docs = rsp.getResults();
 		assertEquals(docs.size(), 1)
-		assertEquals(docs[0].getFieldValue("arr_solrsWithOverride"), SolrUtil.getSolrId(s1c))		
+		assertEquals(docs[0].getFieldValue("arr_solrsWithOverride")[0], SolrUtil.getSolrId(s1c))		
 	}
 	
 	void testDelete() {
@@ -290,7 +290,8 @@ class DomainMethodTests extends GrailsUnitTestCase {
 		QueryResponse rsp = result.queryResponse
 		def docs = rsp.getResults();
 		assertEquals(docs.size(), 1)
-		assertEquals(docs[0].getFieldValue( s2c.solrFieldName("composition") ), SolrUtil.getSolrId(s2b))		
+		
+		assertEquals(docs[0].getFieldValue( s2c.solrFieldName("composition") )[0], SolrUtil.getSolrId(s2b))		
 	}
 	
 	void testAnnotation() {

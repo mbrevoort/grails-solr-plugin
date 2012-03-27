@@ -52,16 +52,16 @@ class SolrServiceTests extends GrailsUnitTestCase {
 	void testSpatialQueryBuilder() {
 		def solrService = new SolrService()
 		def query = solrService.getSpatialQuery("title_s:church", 39.5186002d, -104.7613633d, 50, 10, 15, "desc", "", 4000, "latitude_rad_d", "longitude_rad_d") 
-		def expected = "q=%28title_s%3Achurch%29+AND+_val_%3A%22sum%28hsin%280.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%2C4000%29%29%22&fq=%7B%21frange+l%3D0+u%3D50%7Dhsin%280.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%2C4000%29&start=10&rows=15&sort=score+desc"
+		def expected = "q=%28title_s%3Achurch%29+AND+_val_%3A%22sum%28hsin%284000%2Cfalse%2C0.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%29%29%22&fq=%7B%21frange+l%3D0+u%3D50%7Dhsin%284000%2Cfalse%2C0.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%29&start=10&rows=15&sort=score+desc"
 		// ok this is a pretty lame test but it's better than nothing
 		assertEquals(expected, query.toString())
 
 		query = solrService.getSpatialQuery("", 39.5186002d, -104.7613633d, 50, 10, 15, "desc", "", 4000, "latitude_rad_d", "longitude_rad_d") 
-		expected = "q=_val_%3A%22sum%28hsin%280.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%2C4000%29%29%22&fq=%7B%21frange+l%3D0+u%3D50%7Dhsin%280.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%2C4000%29&start=10&rows=15&sort=score+desc"
+		expected = "q=_val_%3A%22sum%28hsin%284000%2Cfalse%2C0.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%29%29%22&fq=%7B%21frange+l%3D0+u%3D50%7Dhsin%284000%2Cfalse%2C0.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%29&start=10&rows=15&sort=score+desc"
 		assertEquals(expected, query.toString())
 
 		query = solrService.getSpatialQuery(" ", 39.5186002d, -104.7613633d, 50, 10, 15, "desc", "", 4000, "latitude_rad_d", "longitude_rad_d") 
-		expected = "q=_val_%3A%22sum%28hsin%280.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%2C4000%29%29%22&fq=%7B%21frange+l%3D0+u%3D50%7Dhsin%280.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%2C4000%29&start=10&rows=15&sort=score+desc"
+		expected = "q=_val_%3A%22sum%28hsin%284000%2Cfalse%2C0.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%29%29%22&fq=%7B%21frange+l%3D0+u%3D50%7Dhsin%284000%2Cfalse%2C0.6897296892692897%2C-1.828430718462952%2Clatitude_rad_d%2Clongitude_rad_d%29&start=10&rows=15&sort=score+desc"
 		assertEquals(expected, query.toString())
 
 	}
