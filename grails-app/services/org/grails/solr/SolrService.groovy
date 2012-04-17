@@ -163,7 +163,39 @@ class SolrService {
     return result   
   }
 
-  
+  /**
+   * Perform bulk indexing of domain objects
+   * @param domainClasses List of domain classes to perform indexing on, null means all existing classes
+   * @return
+   */
+  def index(List domainClasses = null) {
+    def dcs = domainClasses
+    if (!dcs) {
+      dcs = grailsApplication.domainClasses
+    }
+
+    def myFullClassname = this.class.name
+    def myPackage = myFullClassname - this.class.simpleName
+
+    dcs.each { dc ->
+      def dcz = dc.clazz
+      if (!dcz.name.startsWith(myPackage)) {
+        dc.properties.each { prop ->
+          if (!SolrUtil.IGNORED_PROPS.contains(prop.name) && prop.type != java.lang.Object) {
+            def fieldName = dcz.solrFieldName(prop.name);
+
+
+
+
+
+
+          }
+        }
+
+      }
+    }
+
+  }
 
 
 }
