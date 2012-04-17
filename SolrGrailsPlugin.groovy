@@ -35,6 +35,7 @@ import org.codehaus.groovy.grails.commons.GrailsClassUtils
 import org.grails.solr.SolrIndexListener
 import org.grails.solr.Solr
 import org.grails.solr.SolrUtil
+import grails.util.Environment
 
 class SolrGrailsPlugin {
     // the plugin version
@@ -79,13 +80,15 @@ open source search server through the SolrJ library.
 
     def doWithApplicationContext = { applicationContext ->
   
-      // add the event listeners for reindexing on change
-      def listeners = applicationContext.sessionFactory.eventListeners
-      def listener = new SolrIndexListener()
+      if (Environment.current != Environment.TEST) {
+        // add the event listeners for reindexing on change
+        def listeners = applicationContext.sessionFactory.eventListeners
+        def listener = new SolrIndexListener()
 
-      ['postInsert', 'postUpdate', 'postDelete'].each({
-         addEventTypeListener(listeners, listener, it)
-      })
+        ['postInsert', 'postUpdate', 'postDelete'].each({
+           addEventTypeListener(listeners, listener, it)
+        })
+      }
     }
 
     def doWithWebDescriptor = { xml ->
