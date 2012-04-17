@@ -101,7 +101,8 @@ open source search server through the SolrJ library.
   
         if(GrailsClassUtils.getStaticPropertyValue(dc.clazz, "enableSolrSearch")) {       
           def domainDesc = application.getArtefact(DomainClassArtefactHandler.TYPE, dc.clazz.name)          
-        
+          def solrExplicitFieldAnnotation = GrailsClassUtils.getStaticPropertyValue(dc.clazz, "solrExplicitFieldAnnotation")
+
           // define indexSolr() method for all domain classes
           dc.metaClass.indexSolr << { server = null ->
             def delegateDomainOjbect = delegate
@@ -180,7 +181,9 @@ open source search server through the SolrJ library.
                 solrFieldName = "${prefix}${name}_t"
               else if(anno.ignore())
                 solrFieldName = null;                
-            } 
+            } else if (solrExplicitFieldAnnotation) {
+                solrFieldName = null
+            }
 
             return solrFieldName
           }
