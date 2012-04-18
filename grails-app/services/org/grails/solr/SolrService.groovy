@@ -191,6 +191,7 @@ class SolrService {
       def dcz = dc.clazz
       if (!dcz.name.startsWith(myPackageName) && (GrailsClassUtils.getStaticPropertyValue(dc.clazz, "enableSolrSearch"))) {
         def fields = ['id']
+        def fieldAsTextAlso = [false]
         def fieldToSolrField = [:]
         dc.properties.each { prop ->
 
@@ -199,6 +200,15 @@ class SolrService {
             if (solrFieldName) {
               fields << prop.name
               fieldToSolrField[prop.name] = solrFieldName
+
+              def asTextAlso = false
+              def clazzProp = dcz.declaredFields.find{ field -> field.name == prop.name}
+              if (clazzProp.isAnnotationPresent(Solr) && clazzProp.getAnnotation(Solr).asTextAlso()) {
+                asTextAlso = true
+              }
+              fieldAsTextAlso << asTextAlso
+
+              println "proccessing ${dcz.name} - ${prop.name} : ${solrFieldName}, ${asTextAlso}"
             }
           }
         }
@@ -220,6 +230,10 @@ class SolrService {
                 doc.addField(docKey, SolrUtil.getSolrId(docValue))
               } else {
                 doc.addField(docKey, docValue)
+              }
+
+              if (fieldAsTextAlso[fieldIdx]) {
+                doc.addField("${prefix}${fieldName}_t", docValue)
               }
             }
           }

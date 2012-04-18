@@ -34,4 +34,5 @@ public @interface Solr {
     boolean asText() default false;
     boolean asTextAlso() default false; 
     boolean ignore() default false;
+    boolean sortable() default true;
 }
