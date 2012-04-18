@@ -210,15 +210,17 @@ class SolrService {
           def doc = new SolrInputDocument();
 
           result.eachWithIndex { fieldValue, fieldIdx ->
-            def fieldName = fields[fieldIdx]
-            def docKey = prefix + fieldToSolrField[fieldName]
-            def docValue = fieldValue
+            if (fieldIdx != 0) { // skip id field
+              def fieldName = fields[fieldIdx]
+              def docKey = prefix + fieldToSolrField[fieldName]
+              def docValue = fieldValue
 
-            // then set the value to the Solr Id
-            if (docValue && DomainClassArtefactHandler.isDomainClass(docValue.class)) {
-              doc.addField(docKey, SolrUtil.getSolrId(docValue))
-            } else {
-              doc.addField(docKey, docValue)
+              // then set the value to the Solr Id
+              if (docValue && DomainClassArtefactHandler.isDomainClass(docValue.class)) {
+                doc.addField(docKey, SolrUtil.getSolrId(docValue))
+              } else {
+                doc.addField(docKey, docValue)
+              }
             }
           }
 
