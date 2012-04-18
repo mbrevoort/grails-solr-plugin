@@ -30,10 +30,15 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.response.QueryResponse
 import org.grails.solr.*
+import org.codehaus.groovy.grails.commons.GrailsClassUtils
+import org.apache.solr.common.SolrInputDocument
+import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
+import org.springframework.transaction.annotation.Transactional
 
 
 class SolrService {
 
+  static final int BATCH_SIZE = 100
   boolean transactional = false
   def grailsApplication
   private def servers = [:]
@@ -164,38 +169,73 @@ class SolrService {
   }
 
   /**
-   * Perform bulk indexing of domain objects
+   * Perform bulk indexing of domain objects.
+   *   Iterate through each domain class and collect solr fields for each class.
+   *   Use HQL to query for data from the collected field.
+   *   Create solr document and submit to solr server.
    * @param domainClasses List of domain classes to perform indexing on, null means all existing classes
    * @return
    */
-  def index(List domainClasses = null) {
+  @Transactional(readOnly = true)
+  def index(List domainClasses = null, prefix = '') {
     def dcs = domainClasses
+    def server = getServer()
+
     if (!dcs) {
       dcs = grailsApplication.domainClasses
     }
 
-    def myFullClassname = this.class.name
-    def myPackage = myFullClassname - this.class.simpleName
+    def myPackageName = this.class.name - this.class.simpleName
 
     dcs.each { dc ->
       def dcz = dc.clazz
-      if (!dcz.name.startsWith(myPackage)) {
+      if (!dcz.name.startsWith(myPackageName) && (GrailsClassUtils.getStaticPropertyValue(dc.clazz, "enableSolrSearch"))) {
+        def fields = ['id']
+        def fieldToSolrField = [:]
         dc.properties.each { prop ->
+
           if (!SolrUtil.IGNORED_PROPS.contains(prop.name) && prop.type != java.lang.Object) {
-            def fieldName = dcz.solrFieldName(prop.name);
-
-
-
-
-
-
+            def solrFieldName = dcz.solrFieldName(prop.name);
+            if (solrFieldName) {
+              fields << prop.name
+              fieldToSolrField[prop.name] = solrFieldName
+            }
           }
         }
 
+        def columnsString = fields.collect { "t.${it}" }.join(", ")
+        def query = "select ${columnsString} from ${dcz.name} t"
+        def results = dcz.executeQuery(query)
+        results.eachWithIndex { result, index ->
+          def doc = new SolrInputDocument();
+
+          result.eachWithIndex { fieldValue, fieldIdx ->
+            def fieldName = fields[fieldIdx]
+            def docKey = prefix + fieldToSolrField[fieldName]
+            def docValue = fieldValue
+
+            // then set the value to the Solr Id
+            if (docValue && DomainClassArtefactHandler.isDomainClass(docValue.class)) {
+              doc.addField(docKey, SolrUtil.getSolrId(docValue))
+            } else {
+              doc.addField(docKey, docValue)
+            }
+          }
+
+          // add a field to the index for the field ype
+          doc.addField(prefix + SolrUtil.TYPE_FIELD, dcz.name)
+
+          // add a field for the id which will be the classname dash id
+          doc.addField("${prefix}id", "${dcz.name}-${result.getAt(0)}")
+
+          server.add(doc)
+
+          if (index % BATCH_SIZE == 0 || (index + 1) == results.size()) {
+            println "[${new Date().time}] - indexing ${index} of ${dcz.name}"
+            server.commit()
+          }
+        }
       }
     }
-
   }
-
-
 }
