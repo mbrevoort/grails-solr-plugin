@@ -190,23 +190,40 @@ class SolrService {
     dcs.each { dc ->
       def dcz = dc.clazz
       if (!dcz.name.startsWith(myPackageName) && (GrailsClassUtils.getStaticPropertyValue(dc.clazz, "enableSolrSearch"))) {
+
+        // TODO:  OO-ified
         def fields = ['id']
         def fieldAsTextAlso = [false]
         def fieldToSolrField = [:]
+        def fieldComponent = [false]
         dc.properties.each { prop ->
 
           if (!SolrUtil.IGNORED_PROPS.contains(prop.name) && prop.type != java.lang.Object) {
             def solrFieldName = dcz.solrFieldName(prop.name);
             if (solrFieldName) {
-              fields << prop.name
-              fieldToSolrField[prop.name] = solrFieldName
-
+              // processing @Solr(asTextAlso)
               def asTextAlso = false
               def clazzProp = dcz.declaredFields.find{ field -> field.name == prop.name}
               if (clazzProp.isAnnotationPresent(Solr) && clazzProp.getAnnotation(Solr).asTextAlso()) {
                 asTextAlso = true
               }
               fieldAsTextAlso << asTextAlso
+
+              // processing @Solr(prefix)
+              if (clazzProp.isAnnotationPresent(Solr) && clazzProp.getAnnotation(Solr).prefix()) {
+                prefix += clazzProp.getAnnotation(Solr).prefix()
+              }
+
+              // processing @Solr(component)
+              def isComponent = false
+              if (clazzProp.isAnnotationPresent(Solr) && DomainClassArtefactHandler.isDomainClass(prop.type) &&
+                      clazzProp.getAnnotation(Solr).component()) {
+                isComponent = true
+              }
+              fieldComponent << isComponent
+
+              fields << prop.name
+              fieldToSolrField[prop.name] = solrFieldName
 
               println "proccessing ${dcz.name} - ${prop.name} : ${solrFieldName}, ${asTextAlso}"
             }
@@ -227,7 +244,11 @@ class SolrService {
 
               // then set the value to the Solr Id
               if (docValue && DomainClassArtefactHandler.isDomainClass(docValue.class)) {
-                doc.addField(docKey, SolrUtil.getSolrId(docValue))
+                if (fieldComponent[fieldIdx]) {
+
+                } else {
+                  doc.addField(docKey, SolrUtil.getSolrId(docValue))
+                }
               } else {
                 doc.addField(docKey, docValue)
               }
@@ -253,5 +274,69 @@ class SolrService {
         }
       }
     }
+  }
+
+  ClassSolrMeta extractSolrMeta(ClassSolrMeta meta, Class dc, int depth) {
+    def dcz = dc.clazz
+    dc.properties.each { prop ->
+      if (!SolrUtil.IGNORED_PROPS.contains(prop.name) && prop.type != java.lang.Object) {
+        def solrFieldName = dcz.solrFieldName(prop.name);
+        if (solrFieldName) {
+
+          // processing @Solr(asTextAlso)
+          def asTextAlso = false
+          def clazzProp = dcz.declaredFields.find{ field -> field.name == prop.name}
+          if (clazzProp.isAnnotationPresent(Solr) && clazzProp.getAnnotation(Solr).asTextAlso()) {
+            asTextAlso = true
+          }
+          fieldAsTextAlso << asTextAlso
+
+          // processing @Solr(prefix)
+          if (clazzProp.isAnnotationPresent(Solr) && clazzProp.getAnnotation(Solr).prefix()) {
+            prefix += clazzProp.getAnnotation(Solr).prefix()
+          }
+
+          // processing @Solr(component)
+          def isComponent = false
+          if (clazzProp.isAnnotationPresent(Solr) && DomainClassArtefactHandler.isDomainClass(prop.type) &&
+                  clazzProp.getAnnotation(Solr).component()) {
+            isComponent = true
+          }
+          fieldComponent << isComponent
+
+          fields << prop.name
+          fieldToSolrField[prop.name] = solrFieldName
+
+          println "proccessing ${dcz.name} - ${prop.name} : ${solrFieldName}, ${asTextAlso}"
+        }
+      }
+    }
+    return meta
+  }
+
+  class ClassSolrMeta {
+    private List<FieldSolrMeta> fields = []
+
+    void addFieldMeta(FieldSolrMeta field) {
+      fields << field
+    }
+
+    String buildHQL() {
+      def query = ''
+      return query
+    }
+
+    SolrInputDocument buildDoc() {
+      def doc = new SolrInputDocument()
+      return doc
+    }
+  }
+
+  class FieldSolrMeta {
+    String fieldName
+    String solrFieldName
+    String prefix
+    boolean component
+    boolean asTextAlso
   }
 }

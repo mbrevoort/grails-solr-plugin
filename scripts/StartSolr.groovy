@@ -35,12 +35,11 @@ def solrHost = "localhost"
 target ( startsolr: "Start Solr Jetty Instance") {
     depends("stopsolr")
     depends("init")
-		
+
 		// overlay the schema.xml config file in the apps grails-app/conf/solr directory (and other conf files)
-		Ant.copy(todir:"${solrHome}/solr/conf", failonerror: false) {
+    Ant.copy(todir:"${solrHome}/solr/conf", verbose:true, overwrite:true) {
 			fileset( dir: "${basedir}/grails-app/conf/solr")
 		}
-
 
 		// pause just for a bit more time to be sure Solr Stopped
 		Thread.sleep(1000)
@@ -51,8 +50,7 @@ target ( startsolr: "Start Solr Jetty Instance") {
 			jvmarg(value:"-DSTOP.KEY=secret")
 			arg(line:"etc/jetty-logging.xml etc/jetty.xml")
 		}
-		
-			
+
 		println "Starting Solr - Solr HOME is ${solrHome}"
 		println "-----------"
 		println "Solr logs can be found here: ${solrHome}/logs"
@@ -87,7 +85,8 @@ target(stopsolr: "Stop Solr") {
 target(init: "Create the solr-home directory") {
   // copy over the resources for solr home
 	Ant.mkdir(dir: "${solrHome}")
+  Ant.mkdir(dir:"${solrHome}/logs")
 	Ant.copy(todir:"${solrHome}") {
-		fileset( dir: "${pluginBasedir}/src/solr-local", )
+		fileset( dir: "${pluginBasedir}/src/solr-local")
 	}
 }
