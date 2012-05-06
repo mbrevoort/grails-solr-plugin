@@ -277,11 +277,13 @@ open source search server through the SolrJ library.
             // instead of the composition logic above, if the class is a domain class
             // then set the value to the Solr Id
             // TODO - reconsider this indexing logic as a whole
-            if(DomainClassArtefactHandler.isDomainClass(docValue.class))
-              doc.addField(docKey, SolrUtil.getSolrId(docValue))
-            else
+            if(DomainClassArtefactHandler.isDomainClass(docValue.class)) {
+              // FIXME: not handle Domain class yet!
+              // doc.addField(docKey, SolrUtil.getSolrId(docValue))
+            } else {
               doc.addField(docKey, docValue)
-            
+            }
+
             // if the annotation asTextAlso is true, then also index this field as a text type independant of how else it's
             // indexed. The best way to handle the need to do this would be the properly configure the schema.xml file but
             // for those not familiar with Solr this is an easy way to make sure the field is processed as text which should 

@@ -245,9 +245,8 @@ class SolrService {
               // then set the value to the Solr Id
               if (docValue && DomainClassArtefactHandler.isDomainClass(docValue.class)) {
                 if (fieldComponent[fieldIdx]) {
-
                 } else {
-                  doc.addField(docKey, SolrUtil.getSolrId(docValue))
+                  // doc.addField(docKey, SolrUtil.getSolrId(docValue))
                 }
               } else {
                 doc.addField(docKey, docValue)
