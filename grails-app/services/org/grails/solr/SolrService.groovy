@@ -126,7 +126,9 @@ class SolrService {
   SolrQuery getSpatialQuery(query, lat, lng, range, start=0, rows=10, sort="asc", funcQuery="", radius=3963.205, lat_field="latitude_rad_d", lng_field="longitude_rad_d") {
     def lat_rad = Math.toRadians( lat )
     def lng_rad = Math.toRadians( lng )
-    def hsin = "hsin(${lat_rad},${lng_rad},${lat_field},${lng_field},${radius})"
+
+    // we use false as already in radians
+    def hsin = "hsin(${radius},false,${lat_rad},${lng_rad},${lat_field},${lng_field})"
     def order = [asc: SolrQuery.ORDER.asc, desc: SolrQuery.ORDER.desc]
     
     if(funcQuery != "")

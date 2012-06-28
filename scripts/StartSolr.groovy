@@ -35,6 +35,12 @@ def solrHost = "localhost"
 target ( startsolr: "Start Solr Jetty Instance") {
     depends("stopsolr")
     depends("init")
+
+	// check for log directory existence - create or Solr won't start    
+    def solrLogDir = "${solrHome}/logs"
+	if(! new File(solrLogDir)?.exists()) {
+	  Ant.mkdir(dir: "${solrLogDir}")
+	}
 		
 		// overlay the schema.xml config file in the apps grails-app/conf/solr directory (and other conf files)
 		Ant.copy(todir:"${solrHome}/solr/conf", failonerror: false) {
