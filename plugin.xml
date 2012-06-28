@@ -1,4 +1,4 @@
-<plugin name='solr' version='0.4' grailsVersion='1.1 &gt; *'>
+<plugin name='solr' version='0.4' grailsVersion='1.2 &gt; *'>
   <author>Mike Brevoort</author>
   <authorEmail>brevoortm@avalonconsult.com</authorEmail>
   <title>Grails Solr Plugin</title>
@@ -28,12 +28,12 @@ open source search server through the SolrJ library.
   </repositories>
   <dependencies>
     <compile>
-      <dependency group='org.apache.solr' name='solr-solrj' version='3.5.0' />
+      <dependency group='org.apache.solr' name='solr-solrj' version='3.6.0' />
     </compile>
   </dependencies>
   <plugins />
   <runtimePluginRequirements>
-    <plugin name='domainClass' version='1.1 &gt; *' />
+    <plugin name='domainClass' version='1.2 &gt; *' />
   </runtimePluginRequirements>
   <behavior />
 </plugin>

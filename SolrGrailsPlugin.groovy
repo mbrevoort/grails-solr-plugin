@@ -40,9 +40,9 @@ class SolrGrailsPlugin {
     // the plugin version
     def version = "0.4"
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "1.1 > *"
+    def grailsVersion = "1.2 > *"
     // the other plugins this plugin depends on
-    def dependsOn = [domainClass: '1.1 > *'] //, hibernate: '1.1 > *']
+    def dependsOn = [domainClass: '1.2 > *'] 
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
       "grails-app/views/error.gsp",
