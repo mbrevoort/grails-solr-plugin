@@ -22,7 +22,7 @@ class SolrTagLib {
       fq.each { item ->
         if(item.contains(field)) {
           // TODO: replace hardcoded style
-          currentFacetSelection = link(action:action, params:[q:q, fq: (fq - [item] )]) { "<span style='color:red; font-size:14px'>X</span>" }
+          currentFacetSelection = link(action:action, params:[q:q, fq: (fq - [item] ), facetfield:params.facetfield]) { "<span style='color:red; font-size:14px'>X</span>" }
           currentFacetSelection += " " + item.split(":")[1].replace("\\", "")  + " <br/>"
         }
       }      
@@ -40,6 +40,7 @@ class SolrTagLib {
             linkParams.action = action
           linkParams.params = [:]
           linkParams.params.q = q
+          linkParams.params.facetfield = params.facetfield
           linkParams.params.fq = fq.size() ? ([item.asFilterQuery] + fq) : [item.asFilterQuery]
 
           out << "<ul>"
