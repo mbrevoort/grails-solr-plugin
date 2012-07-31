@@ -22,6 +22,7 @@
         <span class="paging">
             <g:paginate total="${result.total}" max="15" params="[q:q, fq:fq, facetfield:params.list('facetfield')]"/>
         </span>
+        <span>Total: ${result.total}</span>
         <g:if test="${result.total == 0}">
             No Results found
         </g:if>
