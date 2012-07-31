@@ -34,4 +34,6 @@ public @interface Solr {
     boolean asText() default false;
     boolean asTextAlso() default false; 
     boolean ignore() default false;
+    boolean component() default true;
+    String prefix() default "";
 }

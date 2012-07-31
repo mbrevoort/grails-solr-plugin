@@ -22,6 +22,7 @@
 */
 
 includeTool << gant.tools.Execute
+includeTool << gant.tools.Ivy
 
 Ant.property(environment: 'env')
 grailsHome = Ant.antProject.properties.'env.GRAILS_HOME'
@@ -35,12 +36,11 @@ def solrHost = "localhost"
 target ( startsolr: "Start Solr Jetty Instance") {
     depends("stopsolr")
     depends("init")
-		
+
 		// overlay the schema.xml config file in the apps grails-app/conf/solr directory (and other conf files)
-		Ant.copy(todir:"${solrHome}/solr/conf", failonerror: false) {
+    Ant.copy(todir:"${solrHome}/solr/conf", verbose:true, overwrite:true) {
 			fileset( dir: "${basedir}/grails-app/conf/solr")
 		}
-
 
 		// pause just for a bit more time to be sure Solr Stopped
 		Thread.sleep(1000)
@@ -51,8 +51,7 @@ target ( startsolr: "Start Solr Jetty Instance") {
 			jvmarg(value:"-DSTOP.KEY=secret")
 			arg(line:"etc/jetty-logging.xml etc/jetty.xml")
 		}
-		
-			
+
 		println "Starting Solr - Solr HOME is ${solrHome}"
 		println "-----------"
 		println "Solr logs can be found here: ${solrHome}/logs"
@@ -87,7 +86,31 @@ target(stopsolr: "Stop Solr") {
 target(init: "Create the solr-home directory") {
   // copy over the resources for solr home
 	Ant.mkdir(dir: "${solrHome}")
+  Ant.mkdir(dir:"${solrHome}/logs")
+
+  def stagingDir = "${pluginBasedir}/staging"
+
+  // retrieve libraries
+  ivy.retrieve(organisation: 'org.mortbay.jetty', module: 'jetty', revision: '6.1.26', conf: 'default', sync: true, inline: 'true', pattern: "${stagingDir}/jetty/[artifact].[ext]")
+  ivy.retrieve(organisation: 'org.mortbay.jetty', module: 'start', revision: '6.1.26', conf: 'default', sync: true, inline: 'true', pattern: "${stagingDir}/start/[artifact].[ext]")
+  ivy.retrieve(organisation: 'org.mortbay.jetty', module: 'jsp-2.1', revision: '6.1.14', conf: 'default', sync: true, inline: 'true', pattern: "${stagingDir}/jsp-2.1/[artifact].[ext]")
+  ivy.retrieve(organisation: 'org.apache.solr', module: 'solr' , revision: '3.6.0', conf: 'default', sync: true, inline: 'true', pattern: "${stagingDir}/solr/[artifact].[ext]")
+
+  // copy libraries
+  Ant.copy(todir: "${solrHome}", file: "${stagingDir}/start/start.jar")
+  Ant.copy(todir: "${solrHome}/webapps", file: "${stagingDir}/solr/solr.war")
+  Ant.copy(todir: "${solrHome}/lib") {
+    fileset( dir: "${stagingDir}/jetty")
+  }
+  Ant.copy(todir: "${solrHome}/lib/jsp-2.1") {
+    fileset( dir: "${stagingDir}/jsp-2.1")
+  }
+
+  // cleanup staging dir
+  Ant.delete(dir: "${stagingDir}")
+
+  // copy configuration files
 	Ant.copy(todir:"${solrHome}") {
-		fileset( dir: "${pluginBasedir}/src/solr-local", )
+		fileset( dir: "${pluginBasedir}/src/solr-local")
 	}
 }
